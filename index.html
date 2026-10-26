@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CipherNest | Password Atelier</title>
+    <meta
+      name="description"
+      content="CipherNest Password Atelier — Your characters. Your control. Generate customizable passwords locally in your browser."
+    />
+    <meta property="og:title" content="CipherNest | Password Atelier" />
+    <meta
+      property="og:description"
+      content="CipherNest Password Atelier — Your characters. Your control. Generate customizable passwords locally in your browser."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <main class="workstation" id="main-content">
+        <!-- LEFT SIDE: Brand & Editorial Brief -->
+        <aside class="editorial-panel" aria-label="About CipherNest">
+          <div class="brand-header">
+            <div class="brand-mark" aria-hidden="true">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="2"
+                  y="2"
+                  width="24"
+                  height="24"
+                  rx="4"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                />
+                <path
+                  d="M9 14H19M14 9V19"
+                  stroke="#B87550"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                />
+                <rect
+                  x="7.5"
+                  y="7.5"
+                  width="13"
+                  height="13"
+                  rx="2"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                />
+              </svg>
+            </div>
+            <div class="brand-titles">
+              <span class="brand-name">CipherNest</span>
+              <span class="product-descriptor">PASSWORD ATELIER</span>
+            </div>
+          </div>
+
+          <div class="editorial-body">
+            <p class="tagline">&ldquo;Your characters. Your control.&rdquo;</p>
+            <h1 class="editorial-heading">Make every character count.</h1>
+            <p class="editorial-description">
+              A clean, focused password generator. Choose your exact character
+              length and character sets to create strong credentials instantly.
+            </p>
+          </div>
+        </aside>
+
+        <!-- RIGHT SIDE: Main Password Generation Workspace -->
+        <section
+          class="atelier-workspace"
+          aria-labelledby="workspace-title"
+        >
+          <header class="workspace-header">
+            <div>
+              <span class="workspace-kicker">Password Generator</span>
+              <h2 id="workspace-title" class="workspace-title">
+                Customize &amp; Generate
+              </h2>
+            </div>
+          </header>
+
+          <!-- Crypto Warning Banner (Hidden unless Web Crypto API is unavailable) -->
+          <div
+            id="crypto-warning"
+            class="notice-banner notice-warning"
+            role="alert"
+            hidden
+          >
+            <strong>Standard randomness fallback active:</strong> Your browser does
+            not expose <code>crypto.getRandomValues()</code>. Passwords can still be
+            generated, but cryptographic randomness is unavailable in this environment.
+          </div>
+
+          <!-- 1. Prominent Password Display Area -->
+          <div class="output-station">
+            <div class="output-label-row">
+              <label for="password-output" class="section-label">
+                Generated Password
+              </label>
+              <span id="output-status" class="output-status" aria-live="polite">
+                Ready
+              </span>
+            </div>
+
+            <div
+              id="password-display-box"
+              class="password-display-box is-empty"
+            >
+              <output
+                id="password-output"
+                class="password-output"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                Click &ldquo;Generate Password&rdquo; to begin
+              </output>
+
+              <div class="output-actions">
+                <button
+                  type="button"
+                  id="regenerate-btn"
+                  class="icon-button"
+                  aria-label="Regenerate password with current settings"
+                  title="Regenerate password"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M16.5 10A6.5 6.5 0 1 1 14.59 5.4M16.5 3.5V7.5H12.5"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span class="sr-only">Regenerate</span>
+                </button>
+
+                <button
+                  type="button"
+                  id="copy-btn"
+                  class="copy-button"
+                  disabled
+                  aria-label="Copy generated password to clipboard"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <rect
+                      x="7"
+                      y="7"
+                      width="9.5"
+                      height="9.5"
+                      rx="1.75"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <path
+                      d="M4.5 13H4A1.5 1.5 0 0 1 2.5 11.5V4A1.5 1.5 0 0 1 4 2.5H11.5A1.5 1.5 0 0 1 13 4V4.5"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <span id="copy-btn-label">Copy</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="output-footer-row">
+              <p
+                id="feedback-message"
+                class="feedback-message"
+                role="status"
+                aria-live="polite"
+              ></p>
+            </div>
+          </div>
+
+          <!-- 2. Configuration Form Controls -->
+          <form id="atelier-form" class="controls-grid" novalidate>
+            <!-- Length Control -->
+            <div class="control-block">
+              <div class="length-header">
+                <label for="length-slider" class="section-label">
+                  Character Length
+                </label>
+                <div class="length-readout-group">
+                  <label for="length-number" class="sr-only">
+                    Exact character length (4 to 64)
+                  </label>
+                  <input
+                    type="number"
+                    id="length-number"
+                    class="length-number-input"
+                    min="4"
+                    max="64"
+                    value="16"
+                    inputmode="numeric"
+                  />
+                  <span class="length-unit">chars</span>
+                </div>
+              </div>
+
+              <div class="slider-track-wrapper">
+                <input
+                  type="range"
+                  id="length-slider"
+                  class="length-slider"
+                  min="4"
+                  max="64"
+                  value="16"
+                  step="1"
+                  aria-valuemin="4"
+                  aria-valuemax="64"
+                  aria-valuenow="16"
+                />
+                <div class="slider-scale" aria-hidden="true">
+                  <span>4</span>
+                  <span>16</span>
+                  <span>32</span>
+                  <span>48</span>
+                  <span>64</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Character Controls -->
+            <fieldset class="control-block fieldset-reset">
+              <div class="fieldset-header">
+                <legend class="section-label">Character Sets</legend>
+                <span class="fieldset-hint">Select at least one</span>
+              </div>
+
+              <div class="charset-grid">
+                <label class="charset-option is-active" for="chk-uppercase">
+                  <input
+                    type="checkbox"
+                    id="chk-uppercase"
+                    name="charset"
+                    value="uppercase"
+                    checked
+                  />
+                  <span class="checkbox-indicator" aria-hidden="true"></span>
+                  <span class="charset-details">
+                    <span class="charset-name">Uppercase letters</span>
+                    <code class="charset-sample">A&ndash;Z</code>
+                  </span>
+                </label>
+
+                <label class="charset-option is-active" for="chk-lowercase">
+                  <input
+                    type="checkbox"
+                    id="chk-lowercase"
+                    name="charset"
+                    value="lowercase"
+                    checked
+                  />
+                  <span class="checkbox-indicator" aria-hidden="true"></span>
+                  <span class="charset-details">
+                    <span class="charset-name">Lowercase letters</span>
+                    <code class="charset-sample">a&ndash;z</code>
+                  </span>
+                </label>
+
+                <label class="charset-option is-active" for="chk-numbers">
+                  <input
+                    type="checkbox"
+                    id="chk-numbers"
+                    name="charset"
+                    value="numbers"
+                    checked
+                  />
+                  <span class="checkbox-indicator" aria-hidden="true"></span>
+                  <span class="charset-details">
+                    <span class="charset-name">Numbers</span>
+                    <code class="charset-sample">0&ndash;9</code>
+                  </span>
+                </label>
+
+                <label class="charset-option is-active" for="chk-symbols">
+                  <input
+                    type="checkbox"
+                    id="chk-symbols"
+                    name="charset"
+                    value="symbols"
+                    checked
+                  />
+                  <span class="checkbox-indicator" aria-hidden="true"></span>
+                  <span class="charset-details">
+                    <span class="charset-name">Symbols</span>
+                    <code class="charset-sample">!@#$%^&amp;*</code>
+                  </span>
+                </label>
+              </div>
+
+              <!-- Inline Validation Error -->
+              <p
+                id="validation-error"
+                class="validation-error"
+                role="alert"
+                hidden
+              >
+                Select at least one character category to enable password generation.
+              </p>
+            </fieldset>
+
+            <!-- 3. Password Strength Estimate -->
+            <div class="strength-block" aria-label="Password strength estimate">
+              <div class="strength-header">
+                <span class="section-label">Strength</span>
+                <span
+                  id="strength-label"
+                  class="strength-label"
+                  aria-live="polite"
+                >
+                  Not generated
+                </span>
+              </div>
+
+              <div
+                id="strength-meter"
+                class="strength-meter"
+                role="progressbar"
+                aria-label="Estimated password strength"
+                aria-valuemin="0"
+                aria-valuemax="4"
+                aria-valuenow="0"
+                aria-valuetext="Not generated"
+              >
+                <span class="meter-segment" data-segment="1"></span>
+                <span class="meter-segment" data-segment="2"></span>
+                <span class="meter-segment" data-segment="3"></span>
+                <span class="meter-segment" data-segment="4"></span>
+              </div>
+            </div>
+
+            <!-- 4. Primary Action Bar -->
+            <div class="primary-actions">
+              <button
+                type="submit"
+                id="generate-btn"
+                class="generate-button"
+              >
+                <span>Generate Password</span>
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
